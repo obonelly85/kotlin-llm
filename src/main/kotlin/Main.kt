@@ -23,9 +23,11 @@ fun main() {
 }
 
 fun callOpenAIAPI(userPrompt: String) {
+    val format = loadResponseFormat()
     val jsonBody = JSONObject()
         .put("model", "llama3.1")
         .put("prompt", userPrompt)
+        .put("format", format)
         .put("stream", false)
 
     val requestBody = jsonBody
@@ -62,4 +64,11 @@ fun callOpenAIAPI(userPrompt: String) {
             println("Generated Text: $generatedText")
         } ?: println("Response body is null.")
     }
+}
+
+fun loadResponseFormat(): JSONObject {
+    val stream = object {}.javaClass.getResourceAsStream("/responseFormat.json")
+        ?: throw IllegalStateException("Resource `/responseFormat.json` not found on classpath (place it in `src/main/resources`)")
+    val jsonText = stream.bufferedReader(Charsets.UTF_8).use { it.readText() }
+    return JSONObject(jsonText)
 }

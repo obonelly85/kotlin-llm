@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "characteristics": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["characteristics"]
+}
